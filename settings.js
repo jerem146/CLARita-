@@ -50,7 +50,7 @@ global.yukiJadibts = true
 
 global.packname = '✰ CLARA ✰'
 global.botname = 'CLARA BOT'
-global.wm = 'clara'
+global.wm = 'clara D' jaoko'
 global.author = '© mᥲძᥱ ᥕі𝗍һ ᑲᥡ ⁱᵃᵐ|Darek'
 global.dev = '© ⍴᥆ᥕᥱrᥱძ ᑲᥡ ⁱᵃᵐ|Darek'
 global.textbot = 'CLARA'
