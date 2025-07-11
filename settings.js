@@ -53,8 +53,8 @@ global.botname = 'CLARA BOT'
 global.wm = 'clara D jaoko'
 global.author = '© mᥲძᥱ ᥕі𝗍һ ᑲᥡ ⁱᵃᵐ|Darek'
 global.dev = '© ⍴᥆ᥕᥱrᥱძ ᑲᥡ ⁱᵃᵐ|Darek'
-global.textbot = 'CLARA'
-global.etiqueta = 'CLARA'
+global.textbot = 'CLARA D jaoko'
+global.etiqueta = 'CLARA D jaoko'
 
 //*─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─*
 
