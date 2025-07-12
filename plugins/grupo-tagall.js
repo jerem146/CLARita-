@@ -3,47 +3,37 @@
 - etiqueta en un grupo a todos
 - https://whatsapp.com/channel/0029VaJxgcB0bIdvuOwKTM2Y
 */
-const handler = async (m, { isOwner, isAdmin, conn, text, participants, args, command, usedPrefix, groupMetadata }) => {
-  if (!m.isGroup) throw '*⛔ Este comando solo funciona en grupos.*';
-  if (!(isAdmin || isOwner)) {
-    global.dfail('admin', m, conn);
-    return;
+import fetch from 'node-fetch';
+
+const handler = async (m, { conn, participants, args, command, usedPrefix }) => {
+  if (!m.isGroup) throw '✳️ Este comando solo puede usarse en grupos.';
+  const groupMetadata = await conn.groupMetadata(m.chat);
+  const groupName = groupMetadata.subject;
+  const groupIcon = await conn.profilePictureUrl(m.chat, 'image').catch(() => 'https://i.imgur.com/JHrmYFy.jpeg');
+
+  const mensaje = args.join(' ') || '» INFO :';
+  const total = participants.length;
+  const emoji = '🍫';
+
+  let texto = `*❖ MENCION GENERAL ❖*\n*𓆩 PARA ${total} MIEMBROS 𓆪*\n\n${mensaje}\n\n┌──「 *${groupName}* 」──⊷\n`;
+
+  for (const user of participants) {
+    texto += `${emoji} @${user.id.split('@')[0]}\n`;
   }
 
-  const customEmoji = global.db.data.chats[m.chat]?.customEmoji || '🍫';
-  m.react(customEmoji);
-
-  const pesan = args.join` ` || '';
-  const oi = pesan ? `*» INFO :* ${pesan}` : '';
-
-  const groupName = groupMetadata.subject || 'Grupo';
-  let pp = './media/menus/Menu2.jpg'; // Imagen por defecto
-
-  try {
-    pp = await conn.profilePictureUrl(m.chat, 'image');
-  } catch (e) {
-    // si falla, se queda la imagen por defecto
-  }
-
-  let teks = `*!  MENCION GENERAL  !*\n  *PARA ${participants.length} MIEMBROS* 🗣️\n\n${oi}\n\n─⌬ *${botname}*\n\n`;
-
-  for (const mem of participants) {
-    teks += `${customEmoji} @${mem.id.split('@')[0]}\n`;
-  }
-
-  teks += `\n─⌬ *Grupo:* ${groupName}\n─⌬ *Versión:* ${vs}`;
+  texto += `└─────────────⳹`;
 
   await conn.sendMessage(m.chat, {
-    image: { url: pp },
-    caption: teks,
+    image: await (await fetch(groupIcon)).buffer(),
+    caption: texto,
     mentions: participants.map(p => p.id)
   }, { quoted: m });
 };
 
-handler.help = ['todos *<mensaje opcional>*'];
+handler.help = ['todos *<mensaje>*'];
 handler.tags = ['group'];
-handler.command = ['todos', 'invocar', 'tagall', /^@$/i];
-handler.admin = true;
+handler.command = ['todos', 'tagall', 'invocar'];
 handler.group = true;
+handler.admin = true;
 
 export default handler;
