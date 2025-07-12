@@ -3,37 +3,29 @@
 - etiqueta en un grupo a todos
 - https://whatsapp.com/channel/0029VaJxgcB0bIdvuOwKTM2Y
 */
-import fetch from 'node-fetch';
+const handler = async (m, { isOwner, isAdmin, conn, text, participants, args, command, usedPrefix }) => {
+if (usedPrefix == 'a' || usedPrefix == 'A') return;
 
-const handler = async (m, { conn, participants, args, command, usedPrefix }) => {
-  if (!m.isGroup) throw '✳️ Este comando solo puede usarse en grupos.';
-  const groupMetadata = await conn.groupMetadata(m.chat);
-  const groupName = groupMetadata.subject;
-  const groupIcon = await conn.profilePictureUrl(m.chat, 'image').catch(() => 'https://i.imgur.com/JHrmYFy.jpeg');
+const customEmoji = global.db.data.chats[m.chat]?.customEmoji || '🍫';
+m.react(customEmoji);
 
-  const mensaje = args.join(' ') || '» INFO :';
-  const total = participants.length;
-  const emoji = '🍫';
+if (!(isAdmin || isOwner)) {
+global.dfail('admin', m, conn);
+throw false;
+}
 
-  let texto = `*❖ MENCION GENERAL ❖*\n*𓆩 PARA ${total} MIEMBROS 𓆪*\n\n${mensaje}\n\n┌──「 *${groupName}* 」──⊷\n`;
+const pesan = args.join ;
+const oi = *» INFO :* ${pesan};
+let teks = *!  MENCION GENERAL  !*\n  *PARA ${participants.length} MIEMBROS* 🗣️\n\n ${oi}\n\n╭  ┄ 𝅄 ۪꒰ \⡞᪲=͟͟͞${botname} ≼᳞ׄ` ꒱ ۟ 𝅄 ┄\n;   for (const mem of participants) {   teks += ┊${customEmoji} @${mem.id.split('@')[0]}\n;   }   teks += ╰⸼ ┄ ┄ ┄ ─  ꒰  ׅ୭ ${vs} ୧ ׅ ꒱  ┄  ─ ┄ ⸼`;
 
-  for (const user of participants) {
-    texto += `${emoji} @${user.id.split('@')[0]}\n`;
-  }
-
-  texto += `└─────────────⳹`;
-
-  await conn.sendMessage(m.chat, {
-    image: await (await fetch(groupIcon)).buffer(),
-    caption: texto,
-    mentions: participants.map(p => p.id)
-  }, { quoted: m });
+conn.sendMessage(m.chat, { text: teks, mentions: participants.map((a) => a.id) });
 };
 
-handler.help = ['todos *<mensaje>*'];
+handler.help = ['todos <mensaje opcional>'];
 handler.tags = ['group'];
-handler.command = ['todos', 'tagall', 'invocar'];
-handler.group = true;
+handler.command = ['todos', 'invocar', 'tagall']
 handler.admin = true;
+handler.group = true;
 
 export default handler;
+
